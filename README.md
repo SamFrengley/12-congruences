@@ -1,4 +1,4 @@
-This repository contains the code and data attached to [*On 12-congruences of elliptic curves*](arxiv.org) by Sam Frengley, arXiv:INPUT_TAG. All of the code in this repository is written in [`Magma`](http://magma.maths.usyd.edu.au/magma/). 
+This repository contains the code and data attached to [*On 12-congruences of elliptic curves*](https://arxiv.org/abs/2208.05842) by Sam Frengley, arXiv:2208.05842. All of the code in this repository is written in [`Magma`](http://magma.maths.usyd.edu.au/magma/). 
 
 The directories are arranged as follows:
 - In the directory `verify` we provide code which checks the claims made in the paper. 
