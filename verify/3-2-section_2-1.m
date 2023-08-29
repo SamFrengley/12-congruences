@@ -1,17 +1,32 @@
 /*
     Computational verifications for Section 3.2, when (N,r) = (2,1).
 */
-QQ := Rationals();
-PP<x0,x1,y0,y1> := PolynomialRing(QQ, 4);
-RR<w0,w1,w2> := PolynomialRing(QQ, 3);
+KK<z> := CyclotomicField(4);
+PP<x0,x1,y0,y1> := PolynomialRing(KK, 4);
+RR<w0,w1,w2> := PolynomialRing(KK, 3);
 //----------------------
 // Define some groups
-GL4 := GL(4, QQ); 
-g := GL4![1,0,0,0,  0,-1,0,0,  0,0,1,0,  0,0,0,-1]; 
-h := GL4![1/2,1/16,0,0,  12,-1/2,0,0,  0,0,1/2,1/16,  0,0,12,-1/2];
+GL4 := GL(4, KK);
 
-G_2 := sub<GL4 | h,g>;
-G_tilde_2 := CommutatorSubgroup(G_2);
+// Block diagonal matrices
+g := [1/2,1/16,  0,0,
+      12,-1/2,   0,0,
+      
+      0,0,       1/2,1/16,
+      0,0,       12,-1/2];
+
+h := [1,0,  0,0,
+      0,-1, 0,0,
+      
+      0,0,  1,0,
+      0,0,  0,-1];
+
+g := GL4![x : x in g]; //scale by zeta_4
+h := GL4![x : x in h]; //scale by zeta_4
+
+// The diagonal subgroup \Lambda_1
+Lambda := sub<GL4 | h,g>;
+Lambda_tilde := CommutatorSubgroup(Lambda);
 
 //----------------------
 // Define some invariants
@@ -19,22 +34,22 @@ D := x0*(64*x0^2 - x1^2);
 c4 := 192*x0^2 + x1^2;
 c6 := x1*(576*x0^2 - x1^2);
 
-assert IsInvariant(D, G_tilde_2);
-assert IsInvariant(c4, G_tilde_2);
-assert IsInvariant(c6, G_tilde_2);
+assert IsInvariant(D, Lambda_tilde);
+assert IsInvariant(c4, Lambda_tilde);
+assert IsInvariant(c6, Lambda_tilde);
 assert c4^3 - c6^2 eq 1728*D^2;
 
 I11 := 192*x0*y0 + x1*y1;
 
-assert IsInvariant(I11, G_2);
+assert IsInvariant(I11, Lambda);
 
 II := [ I11^3, 
         2*I11*c4*Evaluate(c4, [y0,y1,0,0]),
         1728*D*Evaluate(D, [y0,y1,0,0])
-    ];
+      ];
 
 for inv in II do
-    assert IsInvariant(inv, G_2);
+    assert IsInvariant(inv, Lambda);
 end for;
 
 //----------------------

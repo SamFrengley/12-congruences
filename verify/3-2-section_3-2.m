@@ -3,20 +3,32 @@
 */
 
 QQ := Rationals();
-K<z> := CyclotomicField(3); 
-PK<a> := PolynomialRing(K); 
-KK<a> := ext<K | a^2 - 3>;
+KK<z> := CyclotomicField(3); 
 PP<x0,x1,y0,y1> := PolynomialRing(KK, 4);
 RR<w0,w1,w2> := PolynomialRing(QQ, 3);
 
 //----------------------
 // Define some groups
-GL4 := GL(4, KK); 
-g := GL4![1,0,0,0,  0,z,0,0,  0,0,1,0,  0,0,0,z^2]; 
-h := GL4![1/a,(1/3)/a,0,0,  6/a,-1/a,0,0,  0,0,1/a,(1/3)/a,  0,0,6/a,-1/a];
+GL4 := GL(4, KK);
+a := Roots(Polynomial([3,0,1]), KK)[1][1];
+assert a^2 eq -3; // i.e., a = sqrt(-3)
 
-G_3 := sub<GL4 | g,h>;
-G_tilde_3 := CommutatorSubgroup(G_3);
+//
+g := GL4![1/a,1/(3*a),  0,0,
+          6/a,-1/a,     0,0,
+          
+          0,0,          1/a,1/(3*a),
+          0,0,          6/a,-1/a];
+
+h := GL4![1,0,  0,0,
+          0,z,  0,0,
+          
+          0,0,  1,0,
+          0,0,  0,z^2];
+
+// The twisted diagonal subgroup \Lambda_2
+Lambda := sub<GL4 | g,h>;
+Lambda_tilde := CommutatorSubgroup(Lambda);
 
 //----------------------
 // Define some invariants
@@ -25,20 +37,21 @@ D := -(27*x0^4 + x0*x1^3);
 c4 := -(216*x0^3*x1 - x1^4);
 c6 := 5832*x0^6 - 540*x0^3*x1^3 - x1^6;
 
-assert IsInvariant(D, G_tilde_3);
-assert IsInvariant(c4, G_tilde_3);
-assert IsInvariant(c6, G_tilde_3);
+assert IsInvariant(D, Lambda_tilde);
+assert IsInvariant(c4, Lambda_tilde);
+assert IsInvariant(c6, Lambda_tilde);
 assert c4^3 - c6^2 eq 1728*D^3;
 
-I11 := 18*x0*y0 + x1*y1;
+I22 := (18*x0*y0 + x1*y1)^2;
+assert IsInvariant(I22, Lambda);
 
-II := [ (3/2)*(3*I11^4 - c4*Evaluate(c4, [y0,y1,0,0]) - 144*D*Evaluate(D, [y0,y1,0,0])), 
+II := [ (3/2)*(3*I22^2 - c4*Evaluate(c4, [y0,y1,0,0]) - 144*D*Evaluate(D, [y0,y1,0,0])), 
         c4*Evaluate(c4, [y0,y1,0,0]),
         144*D*Evaluate(D, [y0,y1,0,0])
-    ];
+      ];
 
 for inv in II do
-    assert IsInvariant(inv, G_3);
+    assert IsInvariant(inv, Lambda);
 end for;
 
 //----------------------

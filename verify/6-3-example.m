@@ -1,5 +1,5 @@
 /*
-    Computational verifications for Example 6.6.
+    Computational verifications for Example 6.3.
 */
 load "../Z12-r/Z12equations.m";
 load "../Z2_3_4/iscongruent.m";

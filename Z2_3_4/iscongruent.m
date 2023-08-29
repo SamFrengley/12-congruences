@@ -141,8 +141,12 @@ function IsNrCongruentToTwist(N, r, E1, E2)
             for beta in betas do
                 delta := -6*(2*beta^3 - (5*alpha + 2)*beta^2 - 10*JJ_1*beta + 3*JJ_1*(13*alpha - 2 + 6*JpJ))/(beta^3 - 3*JJ_1*beta - 2*JJ_1^2);
                 t := 3*c61*c62*delta;
-                t := Numerator(t)*Denominator(t);
-                t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                if Parent(t) cmpeq Rationals() then 
+                    t := Numerator(t)*Denominator(t);
+                    t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                else    
+                    t_nosq := t;
+                end if;
                 Append(~twists, t_nosq);
             end for;
         end for;
@@ -156,13 +160,21 @@ function IsNrCongruentToTwist(N, r, E1, E2)
             for beta in betas do
                 if beta ne 0 then
                     t := 3*c61*c62*beta;
-                    t := Numerator(t)*Denominator(t);
-                    t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                    if Parent(t) cmpeq Rationals() then 
+                        t := Numerator(t)*Denominator(t);
+                        t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                    else    
+                        t_nosq := t;
+                    end if;
                     Append(~twists, t_nosq);
                 elif beta eq 0 then
                     t := -2*c61*c62;
-                    t := Numerator(t)*Denominator(t);
-                    t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                    if Parent(t) cmpeq Rationals() then 
+                        t := Numerator(t)*Denominator(t);
+                        t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                    else    
+                        t_nosq := t;
+                    end if;
                     Append(~twists, t_nosq);
                 end if;
             end for;
@@ -178,8 +190,12 @@ function IsNrCongruentToTwist(N, r, E1, E2)
                 gammas := [a[1] : a in Roots(x^4 - 6 *JJ *beta *x^2 - 16 *JJ^2*x + 3 *JJ^2 *(4 *JJ -  beta^2) )];
                 for gamma in gammas do
                     t := 3*c61*c62*D*alpha;
-                    t := Numerator(t)*Denominator(t);
-                    t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                    if Parent(t) cmpeq Rationals() then 
+                        t := Numerator(t)*Denominator(t);
+                        t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                    else    
+                        t_nosq := t;
+                    end if;
                     Append(~twists, t_nosq);
                 end for;
             end for;
@@ -195,8 +211,12 @@ function IsNrCongruentToTwist(N, r, E1, E2)
                 gammas := [a[1] : a in Roots(x^4 - 6 *JJ *beta *x^2 - 16 *JJ^2*x + 3 *JJ^2 *(4 *JJ -  beta^2) )];
                 for gamma in gammas do
                     t := 3*c61*c62*D*alpha;
-                    t := Numerator(t)*Denominator(t);
-                    t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                    if Parent(t) cmpeq Rationals() then 
+                        t := Numerator(t)*Denominator(t);
+                        t_nosq := Sign(t)*&*([1] cat [p[1] : p in Factorisation(t) | (p[2] mod 2) eq 1]);
+                    else    
+                        t_nosq := t;
+                    end if;
                     Append(~twists, t_nosq);
                 end for;
             end for;
